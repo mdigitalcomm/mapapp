@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Row, Col } from "react-bootstrap"
 
 export default class Map extends Component {
 	componentDidMount() {
@@ -9,15 +10,18 @@ export default class Map extends Component {
 		});
 	}
 
-	style = {
-		height: "500px",
-		width: "1000px"	
-	}
+
 
 	render() {
 		return (
-			<div id="map" style={this.style}>
-				loading map...
+			<div>
+				
+				<input type="text" name="address" />
+				
+
+				<div id="map">
+					Map loading...
+				</div>				
 			</div>
 
 		)
