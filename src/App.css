@@ -1,3 +1,32 @@
 .App {
-  text-align: center;
+  text-align: left;
+}
+
+input[type=text] {
+	width: 22%;
+	font-size: 20px;
+	padding: 8px 4px;
+	border: 2px solid grey;
+	border-radius: 4px;
+	margin: 10px;
+}
+
+#map {
+	height: 100%;
+	width: 75%;
+	left: 25%;
+	position: absolute;
+	top: 0;
+}
+
+@media (max-width: 800px) {
+	input[type=text] {
+		width: 93%;
+	}
+
+	#map {
+		width: 100%;
+		left: 0;
+		top: 65px;
+	}
 }
