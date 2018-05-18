@@ -2,8 +2,12 @@
   text-align: left;
 }
 
-input[type=text] {
+.left {
 	width: 22%;
+}
+
+input[type=text] {
+	
 	font-size: 20px;
 	padding: 8px 4px;
 	border: 2px solid grey;
@@ -20,7 +24,7 @@ input[type=text] {
 }
 
 @media (max-width: 800px) {
-	input[type=text] {
+	.left {
 		width: 93%;
 	}
 

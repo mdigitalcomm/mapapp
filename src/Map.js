@@ -36,12 +36,6 @@ export default class Map extends Component {
 		})
 	}
 
-
-	/* populate the infowindow when*/
-	populateInfoWindow = (marker, infowindow) => {
-
-	}
-
 	parks = [
 			{
 				title: "Potomac Overlook Regional Park",
@@ -89,8 +83,15 @@ export default class Map extends Component {
 	render() {
 		return (
 			<div>
-				<h2>Hiking Trails</h2>
-				<input type="text" name="address" />
+				<div className="left">
+					<h2>Hiking Trails</h2>
+					<input type="text" name="address" />
+					<ul>
+						{this.parks.map(park => (
+							<li >{park.title}</li>
+						))}
+					</ul>				
+				</div>
 				<div id="map">
 					Map loading...
 				</div>				
