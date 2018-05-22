@@ -1,16 +1,21 @@
 import React, { Component } from 'react'
+import { ButtonToolbar, SplitButton, MenuItem } from 'react-bootstrap'
 
 export default class Map extends Component {
-	componentDidMount() {
+	componentDidMount() {		
 		/* Create the map */
-		let map = new window.google.maps.Map(document.getElementById('map'), {
+		let map = this.map()
+		/*Add markers*/		
+		this.addMarkers(map)
+	}
+
+	map = () => new window.google.maps.Map(document.getElementById('map'), {
 			center: {lat: 38.8717767, lng: -77.11730230000001},
 			zoom: 12,
 			mapTypeId: 'roadmap'
 		})
 
-		/*Create markers*/
-		let markers = []
+	addMarkers = (map) => {
 		this.parks.map(park => {			
 			let marker = new window.google.maps.Marker({
 				map: map,
@@ -18,22 +23,27 @@ export default class Map extends Component {
 				title: park.title,
 				animation: window.google.maps.Animation.DROP,
 			})
-			markers.push(marker)
-			
+
 			/*Click marker to show infowindow*/
 			marker.addListener('click', () => {
-				let infowindow = new window.google.maps.InfoWindow()
-				if (infowindow.marker !== marker) {
-					infowindow.marker = marker
-					infowindow.setContent(`<div>${marker.title}</div>`)
-					infowindow.open(this.map, marker)
-					infowindow.addListener('closeclick', ()=>{
-						infowindow.setMarker = null
-					})
-				}
+				this.showInfoWindow(marker)	
 			})
-			return markers 
+
+
+			return marker 
 		})
+	}
+
+	showInfoWindow = (marker) => {
+		let infowindow = new window.google.maps.InfoWindow()
+		if (infowindow.marker !== marker) {
+			infowindow.marker = marker
+			infowindow.setContent(`<div>${marker.title}</div>`)
+			infowindow.open(this.map, marker)
+			infowindow.addListener('closeclick', ()=>{
+				infowindow.setMarker = null
+			})
+		}
 	}
 
 	parks = [
@@ -85,10 +95,22 @@ export default class Map extends Component {
 			<div>
 				<div className="left">
 					<h2>Hiking Trails</h2>
-					<input type="text" name="address" />
+					<div className="search">	
+						
+						<ButtonToolbar className="filter">
+							<SplitButton bsSize="large" title="Filter by Region" id="filter-button">
+								<MenuItem eventKey="1">Arlington</MenuItem>
+								<MenuItem eventKey="2">Alexandria</MenuItem>
+								<MenuItem eventKey="3">Annandale</MenuItem>
+								<MenuItem eventKey="4">Fairfax</MenuItem>
+								<MenuItem eventKey="5">Falls Church</MenuItem>
+								<MenuItem eventKey="6">Springfield</MenuItem>
+							</SplitButton>
+						</ButtonToolbar>
+					</div>
 					<ul>
 						{this.parks.map(park => (
-							<li >{park.title}</li>
+							<li className="park-name" key={park.title}>{park.title}</li>
 						))}
 					</ul>				
 				</div>
