@@ -3,14 +3,15 @@ import { ButtonToolbar, SplitButton, MenuItem } from 'react-bootstrap'
 
 export default class Map extends Component {
 	state = {
-		filter: ''
+		filter: '',
+		parks: []
 	}
 
 	componentDidMount() {		
 		/* Create the map */
 		let map = this.map()
-		/*Add markers*/		
-		this.addMarkers(map)
+		/*Showing markers of all parks*/
+		this.addMarkers(this.parks, map)
 	}
 
 	map = () => new window.google.maps.Map(document.getElementById('map'), {
@@ -20,13 +21,17 @@ export default class Map extends Component {
 	})
 
 	setFilter = (value) => {
+		let filterValue = new RegExp(value)
 		this.setState({filter: value})
-		console.log(this.state.filter)
+		setTimeout(() => {
+			let showingParks = this.parks.filter((park) => filterValue.test(park.address))
+			this.setState({parks: showingParks})
+		}, 100)
+	
 	}
 
-
-	addMarkers = (map) => {
-		this.parks.map(park => {			
+	addMarkers = (parks, map) => {
+		parks.map(park => {			
 			let marker = new window.google.maps.Marker({
 				map: map,
 				position: park.location,
@@ -101,21 +106,21 @@ export default class Map extends Component {
 		]
 
 	render() {
-		let showParks
-		let filterValue = new RegExp(this.state.filter)
-		if (!filterValue) {
-			showParks = this.parks
-		} else {
-			showParks = this.parks.filter((park) => filterValue.test(park.address))
-		}
-
 		return (
 			<div>
 				<div className="left">
-					<h2>Hiking Trails</h2>
+					<h1>Hiking Trails Near Me</h1>
 					<div className="search">							
 						<ButtonToolbar className="filter">
-							<SplitButton bsSize="large" title="Filter by Region" id="filter-button" onSelect={eventKey => this.setFilter(eventKey)}>
+							<SplitButton 
+								bsSize="large" 
+								title={this.state.filter? this.state.filter: "All Regions" } 
+								id="filter-button" 
+								onSelect={eventKey => {
+									this.setFilter(eventKey)
+									setTimeout(() => this.addMarkers(this.state.parks, this.map()), 200)
+								}}>
+								
 								<MenuItem eventKey="">All</MenuItem>
 								<MenuItem eventKey="Arlington">Arlington</MenuItem>
 								<MenuItem eventKey="Alexandria">Alexandria</MenuItem>
@@ -125,14 +130,24 @@ export default class Map extends Component {
 							</SplitButton>
 						</ButtonToolbar>
 					</div>
-					<ul>
-						{showParks.map(park => (
-							<li className="park-name" key={park.title}>{park.title}<br/>{park.address}</li>
-						))}
+					<ul className="parks-list">
+						{this.state.filter ? 
+							this.state.parks.map(park => (
+								<li key={park.title}>
+									<div className="park-name">{park.title}</div>
+									<div className="park-address">{park.address}</div>
+								</li>
+							)):
+							this.parks.map(park => (
+								<li key={park.title}>
+									<div className="park-name">{park.title}</div>
+									<div className="park-address">{park.address}</div>
+								</li>
+							))
+						}
 					</ul>				
 				</div>
 				<div id="map">
-					Map loading...
 				</div>				
 			</div>
 
