@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { ButtonToolbar, SplitButton, MenuItem } from 'react-bootstrap'
 
 export default class Map extends Component {
+	state = {
+		filter: ''
+	}
+
 	componentDidMount() {		
 		/* Create the map */
 		let map = this.map()
@@ -13,7 +17,13 @@ export default class Map extends Component {
 			center: {lat: 38.8717767, lng: -77.11730230000001},
 			zoom: 12,
 			mapTypeId: 'roadmap'
-		})
+	})
+
+	setFilter = (value) => {
+		this.setState({filter: value})
+		console.log(this.state.filter)
+	}
+
 
 	addMarkers = (map) => {
 		this.parks.map(park => {			
@@ -91,26 +101,33 @@ export default class Map extends Component {
 		]
 
 	render() {
+		let showParks
+		let filterValue = new RegExp(this.state.filter)
+		if (!filterValue) {
+			showParks = this.parks
+		} else {
+			showParks = this.parks.filter((park) => filterValue.test(park.address))
+		}
+
 		return (
 			<div>
 				<div className="left">
 					<h2>Hiking Trails</h2>
-					<div className="search">	
-						
+					<div className="search">							
 						<ButtonToolbar className="filter">
-							<SplitButton bsSize="large" title="Filter by Region" id="filter-button">
-								<MenuItem eventKey="1">Arlington</MenuItem>
-								<MenuItem eventKey="2">Alexandria</MenuItem>
-								<MenuItem eventKey="3">Annandale</MenuItem>
-								<MenuItem eventKey="4">Fairfax</MenuItem>
-								<MenuItem eventKey="5">Falls Church</MenuItem>
-								<MenuItem eventKey="6">Springfield</MenuItem>
+							<SplitButton bsSize="large" title="Filter by Region" id="filter-button" onSelect={eventKey => this.setFilter(eventKey)}>
+								<MenuItem eventKey="">All</MenuItem>
+								<MenuItem eventKey="Arlington">Arlington</MenuItem>
+								<MenuItem eventKey="Alexandria">Alexandria</MenuItem>
+								<MenuItem eventKey="Annandale">Annandale</MenuItem>
+								<MenuItem eventKey="Falls Church">Falls Church</MenuItem>
+								<MenuItem eventKey="Springfield">Springfield</MenuItem>
 							</SplitButton>
 						</ButtonToolbar>
 					</div>
 					<ul>
-						{this.parks.map(park => (
-							<li className="park-name" key={park.title}>{park.title}</li>
+						{showParks.map(park => (
+							<li className="park-name" key={park.title}>{park.title}<br/>{park.address}</li>
 						))}
 					</ul>				
 				</div>
