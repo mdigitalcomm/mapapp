@@ -106,6 +106,7 @@ export default class Map extends Component {
 		]
 
 	render() {
+		let listParks = this.state.filter ? this.state.parks : this.parks
 		return (
 			<div>
 				<div className="left">
@@ -131,20 +132,14 @@ export default class Map extends Component {
 						</ButtonToolbar>
 					</div>
 					<ul className="parks-list">
-						{this.state.filter ? 
-							this.state.parks.map(park => (
-								<li key={park.title}>
-									<div className="park-name">{park.title}</div>
-									<div className="park-address">{park.address}</div>
-								</li>
-							)):
-							this.parks.map(park => (
+						{listParks.map(park => (
 								<li key={park.title}>
 									<div className="park-name">{park.title}</div>
 									<div className="park-address">{park.address}</div>
 								</li>
 							))
 						}
+						
 					</ul>				
 				</div>
 				<div id="map">
