@@ -134,7 +134,7 @@ export default class Map extends Component {
 					<ul className="parks-list">
 						{listParks.map(park => (
 								<li key={park.title}>
-									<div className="park-name">{park.title}</div>
+									<div onClick={() => alert(park.title)} className="park-name">{park.title}</div>
 									<div className="park-address">{park.address}</div>
 								</li>
 							))
