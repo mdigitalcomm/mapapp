@@ -4,7 +4,8 @@ import { ButtonToolbar, SplitButton, MenuItem } from 'react-bootstrap'
 export default class Map extends Component {
 	state = {
 		filter: '',
-		parks: []
+		parks: [],
+		markers: []
 	}
 
 	componentDidMount() {		
@@ -31,6 +32,7 @@ export default class Map extends Component {
 	}
 
 	addMarkers = (parks, map) => {
+		let markers = []
 		parks.map(park => {			
 			let marker = new window.google.maps.Marker({
 				map: map,
@@ -43,10 +45,12 @@ export default class Map extends Component {
 			marker.addListener('click', () => {
 				this.showInfoWindow(marker)	
 			})
-
-
-			return marker 
+			markers.push(marker)
+			return markers
 		})
+		setTimeout(() => {
+			this.setState({markers})
+		}, 100)
 	}
 
 	showInfoWindow = (marker) => {
@@ -59,6 +63,15 @@ export default class Map extends Component {
 				infowindow.setMarker = null
 			})
 		}
+	}
+
+	matchMarker = (e) => {
+		this.state.markers.map(marker => {
+			if (e.target.innerHTML === marker.title) {
+				this.showInfoWindow(marker)
+			} return marker
+		})
+
 	}
 
 	parks = [
@@ -134,7 +147,8 @@ export default class Map extends Component {
 					<ul className="parks-list">
 						{listParks.map(park => (
 								<li key={park.title}>
-									<div onClick={() => alert(park.title)} className="park-name">{park.title}</div>
+									<div onClick={(event) => this.matchMarker(event)} 
+										className="park-name">{park.title}</div>
 									<div className="park-address">{park.address}</div>
 								</li>
 							))
