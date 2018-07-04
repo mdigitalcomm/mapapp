@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { ButtonToolbar, SplitButton, MenuItem } from 'react-bootstrap'
+import InfoWindow from './InfoWindow'
 
 export default class Map extends Component {
 	state = {
@@ -38,6 +39,7 @@ export default class Map extends Component {
 				map: map,
 				position: park.location,
 				title: park.title,
+				address: park.address,
 				animation: window.google.maps.Animation.DROP,
 			})
 
@@ -50,6 +52,8 @@ export default class Map extends Component {
 		})
 		setTimeout(() => {
 			this.setState({markers})
+			console.log(markers)
+
 		}, 100)
 	}
 
@@ -57,7 +61,9 @@ export default class Map extends Component {
 		let infowindow = new window.google.maps.InfoWindow()
 		if (infowindow.marker !== marker) {
 			infowindow.marker = marker
-			infowindow.setContent(`<div>${marker.title}</div>`)
+			this.getPhoto(marker)
+			infowindow.setContent(`<div>${marker.title}</div>
+				<div id="parkPhoto"><div>`)
 			infowindow.open(this.map, marker)
 			infowindow.addListener('closeclick', ()=>{
 				infowindow.setMarker = null
@@ -72,6 +78,25 @@ export default class Map extends Component {
 			} return marker
 		})
 
+	}
+
+	getPhoto = (park) => {
+		fetch(`https://api.foursquare.com/v2/venues/search?near=${park.address}&query=${park.title}&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180527
+`).then(results => console.log(results.json())).then(response => console.log(response))
+	}
+
+	addPhoto = (data) => {
+		let htmlContent=''
+		let responseContainer = document.getElementById('parkPhoto')
+		const firstImage = data.results[0]
+		if(firstImage) {
+			htmlContent=`
+				<img src="${firstImage.urls.small}" alt="name" style="width: 400px; height: 300px">
+				`
+		} else {
+			htmlContent = 'No image available'
+		}
+		responseContainer.insertAdjacentHTML('afterbegin', htmlContent)
 	}
 
 	parks = [
