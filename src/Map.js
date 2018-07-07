@@ -81,8 +81,14 @@ export default class Map extends Component {
 	}
 
 	getPhoto = (park) => {
-		fetch(`https://api.foursquare.com/v2/venues/search?near=${park.address}&query=${park.title}&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180527
-`).then(results => console.log(results.json())).then(response => console.log(response))
+		fetch('https://api.yelp.com/v3/businesses/search?term=${park.title}&location={park.address}', {
+			headers: {
+				'API_KEY': 'S6YR7w2iVj535AtFP_dyltabDdPPqjAFONm86pacxD9DozOhy8FnY5-mRRXlTl7XWDPNPb25793dp0twHaBE9Abbg3_twXNcg31yGIrb3yk_ZrBZOYGrgIrzQNVAW3Yx'
+			}
+		}).then(response => console.log(response.json()))
+		// fetch(`https://api.foursquare.com/v2/venues/search?near=${park.address}&query=${park.title}&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180527`)
+		// .then(response => console.log(response.json()))
+		// // .then(data => console.log(data.response.venues))
 	}
 
 	addPhoto = (data) => {
