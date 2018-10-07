@@ -5,41 +5,42 @@ import InfoWindow from './InfoWindow'
 export default class Map extends Component {
 	state = {
 		filter: '',
-		parks: [],
+		bookstores: [],
 		markers: []
 	}
 
 	componentDidMount() {		
 		/* Create the map */
 		let map = this.map()
-		/*Showing markers of all parks*/
-		this.addMarkers(this.parks, map)
+		/*Showing markers of all bookstores*/
+		this.addMarkers(this.bookstores, map)
 	}
 
 	map = () => new window.google.maps.Map(document.getElementById('map'), {
 			center: {lat: 38.8717767, lng: -77.11730230000001},
 			zoom: 12,
 			mapTypeId: 'roadmap'
+			// Addd fitbounds method
 	})
 
 	setFilter = (value) => {
 		let filterValue = new RegExp(value)
 		this.setState({filter: value})
 		setTimeout(() => {
-			let showingParks = this.parks.filter((park) => filterValue.test(park.address))
-			this.setState({parks: showingParks})
+			let showingBookstores = this.bookstores.filter((bookstore) => filterValue.test(bookstore.state))
+			this.setState({bookstores: showingBookstores})
 		}, 100)
 	
 	}
 
-	addMarkers = (parks, map) => {
+	addMarkers = (bookstores, map) => {
 		let markers = []
-		parks.map(park => {			
+		bookstores.map(bookstore => {			
 			let marker = new window.google.maps.Marker({
 				map: map,
-				position: park.location,
-				title: park.title,
-				address: park.address,
+				position: new window.google.maps.LatLng(bookstore.lat, bookstore.lng),
+				title: bookstore.title,
+				address: bookstore.address,
 				animation: window.google.maps.Animation.DROP,
 			})
 
@@ -61,9 +62,9 @@ export default class Map extends Component {
 		let infowindow = new window.google.maps.InfoWindow()
 		if (infowindow.marker !== marker) {
 			infowindow.marker = marker
-			this.getPhoto(marker)
+			this.getDetail(marker)
 			infowindow.setContent(`<div>${marker.title}</div>
-				<div id="parkPhoto"><div>`)
+				<div id="bookstorePhoto"><div>`)
 			infowindow.open(this.map, marker)
 			infowindow.addListener('closeclick', ()=>{
 				infowindow.setMarker = null
@@ -80,77 +81,109 @@ export default class Map extends Component {
 
 	}
 
-	getPhoto = (park) => {
-		fetch('https://api.yelp.com/v3/businesses/search?term=${park.title}&location={park.address}', {
-			headers: {
-				'API_KEY': 'S6YR7w2iVj535AtFP_dyltabDdPPqjAFONm86pacxD9DozOhy8FnY5-mRRXlTl7XWDPNPb25793dp0twHaBE9Abbg3_twXNcg31yGIrb3yk_ZrBZOYGrgIrzQNVAW3Yx'
-			}
-		}).then(response => console.log(response.json()))
-		// fetch(`https://api.foursquare.com/v2/venues/search?near=${park.address}&query=${park.title}&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180527`)
-		// .then(response => console.log(response.json()))
-		// // .then(data => console.log(data.response.venues))
+	getDetail = (bookstore) => {
+		
+		let ll = `${bookstore.getPosition().lat()},${bookstore.getPosition().lng()}`		
+		fetch(`https://api.foursquare.com/v2/venues/search?ll=${ll}&limit=1&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180527`)
+		.then(results => results.json())
+		.catch(error => error)
+		.then(data => {
+			console.log(data.response.venues[0])
+			let id = data.response.venues[0].id
+			return fetch(`https://api.foursquare.com/v2/venues/${id}?&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180707`)
+		})		
+		.then(results => results.json())
+		.then(data => {
+			console.log(data.response.venue)
+			return data.response.venue
+		})
+		.then(venue => this.addDetail(venue))
+
 	}
 
-	addPhoto = (data) => {
+	addDetail = (data) => {
+		
 		let htmlContent=''
-		let responseContainer = document.getElementById('parkPhoto')
-		const firstImage = data.results[0]
-		if(firstImage) {
-			htmlContent=`
-				<img src="${firstImage.urls.small}" alt="name" style="width: 400px; height: 300px">
+		let responseContainer = document.getElementById('bookstorePhoto')
+		let contact = data.contact.phone
+		// let hours = data.hours.status
+		
+		htmlContent=`
+				<p>${contact}</p>
 				`
-		} else {
-			htmlContent = 'No image available'
-		}
 		responseContainer.insertAdjacentHTML('afterbegin', htmlContent)
 	}
 
-	parks = [
+	bookstores = [
 			{
-				title: "Potomac Overlook Regional Park",
-				address: "2845 Marcey Rd, Arlington, VA 22207",
-				location : {lat : 38.913048, lng : -77.1078129 }
+				title: "Politics and Prose Bookstore",
+				address: "5015 Connecticut Ave NW",
+				city: "Washington",
+				state: "D.C.",
+				lat : 38.955433406841465, 
+				lng : -77.06970870494843
 			},
 			{
-				title: "Dora Kelley Nature Park",
-				address: "5750 Sanger Ave, Alexandria, VA 22311",
-				location : {lat : 38.8283123, lng : -77.13097259999999}
+				title: "Washington Monument Bookstore",
+				address: "Washington Memorial Drwy SW",
+				city: "Washington",
+				state: "D.C.",
+				lat : 38.889276459346284, 
+				lng : -77.03189689261164
 			},
 			{
-				title: "Windy Run Park",
-				address: "2420 N Kenmore St, Arlington, VA 22207",
-				location : {lat : 38.9037858, lng : -77.09773679999999}
+				title: "George Mason University - Arlington Campus Bookstore",
+				address: "3401 Fairfax Dr",
+				city: "Arlington",
+				state: "VA",
+				lat : 38.88743859540963, 
+				lng : -77.09402561187744
 			},
 			{
-				title: "Mount Vernon Trail",
-				address: "1198 George Washington Memorial Pkwy, Alexandria, VA 22314",
-				location : {lat : 38.7930927, lng : -77.04951439999999}
+				title: "Georgetown University Bookstore",
+				address: "3800 Reservoir Rd NW",
+				city: "Washington",
+				state: "D.C.",
+				lat : 38.91015334940311, 
+				lng : -77.07438111305237
 			},
 			{
-				title: "Cavalier Trail Park",
-				address: "600 S Maple Ave, Falls Church, VA 22046",
-				location : {lat : 38.8793574, lng : -77.17916049999999}
+				title: "NOVA Bookstore",
+				address: "8333 Little River Tpke",
+				city: "Annandale",
+				state: "VA",
+				lat : 38.83286355537448, 
+				lng : -77.23544332092266
 			},
 			{
-				title: "Lake Accotink Park",
-				address: "7500 Accotink Park Rd, Springfield, VA 22150",
-				location : {lat : 38.7938813, lng : -77.2151542}
+				title: "GW Bookstore",
+				address: "800 21st St NW",
+				city: "Washington",
+				state: "D.C.",
+				lat : 38.9001324513647, 
+				lng : -77.04667624668473
 			},
 			{
-				title: "Holmes Run Stream Valley Park",
-				address: "3437 Charleson St, Annandale, VA 22003",
-				location : {lat : 38.8497181, lng : -77.19405309999999}
+				title: "Marymount University Bookstore",
+				address: "2807 N Glebe Rd",
+				city: "Arlington",
+				state: "VA",
+				lat : 38.90485705525619, 
+				lng : -77.1271488650243
 			},
 			{
-				title: "Lucky Run Park",
-				address: "2620 S Walter Reed Dr, Arlington, VA 22206",
-				location : {lat : 38.8425555, lng : -77.10437329999999}
+				title: "DeVry Crystal City Bookstore",
+				address: "2450 Crystal Dr",
+				city: "Arlington",
+				state: "VA",
+				lat : 38.85476415, 
+				lng : -77.05058921666667
 			}
 
 		]
 
 	render() {
-		let listParks = this.state.filter ? this.state.parks : this.parks
+		let listBookstores = this.state.filter ? this.state.bookstores : this.bookstores
 		return (
 			<div>
 				<div className="left">
@@ -163,24 +196,21 @@ export default class Map extends Component {
 								id="filter-button" 
 								onSelect={eventKey => {
 									this.setFilter(eventKey)
-									setTimeout(() => this.addMarkers(this.state.parks, this.map()), 200)
+									setTimeout(() => this.addMarkers(this.state.bookstores, this.map()), 200)
 								}}>
 								
 								<MenuItem eventKey="">All</MenuItem>
-								<MenuItem eventKey="Arlington">Arlington</MenuItem>
-								<MenuItem eventKey="Alexandria">Alexandria</MenuItem>
-								<MenuItem eventKey="Annandale">Annandale</MenuItem>
-								<MenuItem eventKey="Falls Church">Falls Church</MenuItem>
-								<MenuItem eventKey="Springfield">Springfield</MenuItem>
+								<MenuItem eventKey="VA">VA</MenuItem>
+								<MenuItem eventKey="D.C.">D.C.</MenuItem>
 							</SplitButton>
 						</ButtonToolbar>
 					</div>
-					<ul className="parks-list">
-						{listParks.map(park => (
-								<li key={park.title}>
+					<ul className="bookstores-list">
+						{listBookstores.map(bookstore => (
+								<li key={bookstore.title}>
 									<div onClick={(event) => this.matchMarker(event)} 
-										className="park-name">{park.title}</div>
-									<div className="park-address">{park.address}</div>
+										className="bookstore-name">{bookstore.title}</div>
+									<div className="bookstore-address">{bookstore.address}</div>
 								</li>
 							))
 						}
