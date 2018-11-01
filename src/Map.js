@@ -64,7 +64,7 @@ export default class Map extends Component {
 			infowindow.marker = marker
 			this.getDetail(marker)
 			infowindow.setContent(`<div>${marker.title}</div>
-				<div id="bookstorePhoto"><div>`)
+				<div id="bookstoreInfo"><div>`)
 			infowindow.open(this.map, marker)
 			infowindow.addListener('closeclick', ()=>{
 				infowindow.setMarker = null
@@ -104,7 +104,7 @@ export default class Map extends Component {
 	addDetail = (data) => {
 		
 		let htmlContent=''
-		let responseContainer = document.getElementById('bookstorePhoto')
+		let responseContainer = document.getElementById('bookstoreInfo')
 		let contact = data.contact.phone
 		// let hours = data.hours.status
 		
