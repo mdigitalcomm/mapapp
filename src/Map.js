@@ -90,28 +90,28 @@ export default class Map extends Component {
 		.then(data => {
 			console.log(data.response.venues[0])
 			let id = data.response.venues[0].id
-			return fetch(`https://api.foursquare.com/v2/venues/${id}?&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180707`)
+			return fetch(`https://api.foursquare.com/v2/venues/${id}/photos?&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180707`)
+			// return fetch(`https://api.foursquare.com/v2/venues/${id}?&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180707`)
 		})		
 		.then(results => results.json())
 		.then(data => {
-			console.log(data.response.venue)
-			return data.response.venue
+		 	console.log(data.response.photos)
+			return data.response.photos.items[0]
 		})
-		.then(venue => this.addDetail(venue))
+		.then(photo => this.addDetail(photo))
 
 	}
 
-	addDetail = (data) => {
+	addDetail = (photoinfo) => {
 		
 		let htmlContent=''
 		let responseContainer = document.getElementById('bookstoreInfo')
-		let contact = data.contact.phone
-		// let hours = data.hours.status
-		
-		htmlContent=`
-				<p>${contact}</p>
-				`
-		responseContainer.insertAdjacentHTML('afterbegin', htmlContent)
+		let link = `${photoinfo.prefix}${photoinfo.width}x${photoinfo.height}${photoinfo.suffix}`
+		console.log(link)
+		// htmlContent=`
+		// 		<p>${photo}</p>
+		// 		`
+		// responseContainer.insertAdjacentHTML('afterbegin', htmlContent)
 	}
 
 	bookstores = [
