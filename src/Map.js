@@ -108,10 +108,12 @@ export default class Map extends Component {
 		let responseContainer = document.getElementById('bookstoreInfo')
 		let link = `${photoinfo.prefix}${photoinfo.width}x${photoinfo.height}${photoinfo.suffix}`
 		console.log(link)
-		// htmlContent=`
-		// 		<p>${photo}</p>
-		// 		`
-		// responseContainer.insertAdjacentHTML('afterbegin', htmlContent)
+		htmlContent=`
+				<div class="photo">
+					<img src="${link}" alt="photo of bookstore">
+				</div>
+				`
+		responseContainer.insertAdjacentHTML('afterbegin', htmlContent)
 	}
 
 	bookstores = [
@@ -187,7 +189,7 @@ export default class Map extends Component {
 		return (
 			<div>
 				<div className="left">
-					<h1>Hiking Trails Near Me</h1>
+					<h1>Bookstores Near Me</h1>
 					<div className="search">							
 						<ButtonToolbar className="filter">
 							<SplitButton 

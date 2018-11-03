@@ -50,6 +50,11 @@ li .bookstore-address {
 	height: 200px;
 }
 
+#bookstoreInfo img {
+	height: 200px;
+	width: 300px;
+}
+
 @media (max-width: 950px) {
 	.left {
 		width: 93%;
