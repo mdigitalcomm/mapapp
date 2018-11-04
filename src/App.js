@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Map from './Map'
+import List from './List'
 
 class App extends Component {
 
@@ -8,7 +8,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Map />     
+        <List />     
       </div>
     );
   }
