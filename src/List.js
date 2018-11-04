@@ -7,7 +7,8 @@ export default class List extends Component {
 	state = {
 		filter: '',
 		bookstores: [],
-		mapStatus: true
+		mapStatus: true,
+		markerStatus: true
 	}
 
 	setFilter = (value) => {
@@ -24,6 +25,10 @@ export default class List extends Component {
 
 	refreshMap = () => {
 		this.setState({mapStatus: !this.state.mapStatus})
+	}
+
+	refreshMarker = () => {
+		this.setState({markerStatus: !this.state.markerStatus})
 	}
 
 
@@ -122,7 +127,7 @@ export default class List extends Component {
 					<ul className="bookstores-list">
 						{listBookstores.map(bookstore => (
 								<li key={bookstore.title}>
-									<div onClick={(event) => this.matchMarker(event)} 
+									<div onClick={() => this.refreshMarker()} 
 										className="bookstore-name">{bookstore.title}</div>
 									<div className="bookstore-address">{bookstore.address}</div>
 								</li>
@@ -131,7 +136,7 @@ export default class List extends Component {
 						
 					</ul>				
 				</div>
-				<div id="map">
+				<div>
 					<Map 
 						listBookstores={listBookstores}
 						refresh = {mapStatus}

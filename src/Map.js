@@ -1,6 +1,6 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 
-export default class Map extends Component {
+class Map extends Component {
 	state = {
 		markers: []
 	}
@@ -92,7 +92,6 @@ export default class Map extends Component {
 			console.log(data.response.venues[0])
 			let id = data.response.venues[0].id
 			return fetch(`https://api.foursquare.com/v2/venues/${id}/photos?&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180707`)
-			// return fetch(`https://api.foursquare.com/v2/venues/${id}?&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180707`)
 		})		
 		.then(results => results.json())
 		.then(data => {
@@ -118,6 +117,9 @@ export default class Map extends Component {
 	}	
 	
 	render() {
-		return null
-	}
+		return (
+			<div id="map"></div>
+	)}
 }
+
+export default Map
