@@ -1,12 +1,8 @@
-<<<<<<< HEAD
+
 import React, { Component } from 'react';
-||||||| e26328d... separated map from list view
-import { Component } from 'react';
-=======
-import React, { Component } from 'react'
 import { ButtonToolbar, SplitButton, MenuItem } from 'react-bootstrap'
 import InfoWindow from './InfoWindow'
->>>>>>> parent of e26328d... separated map from list view
+
 
 class Map extends Component {
 	state = {
@@ -190,18 +186,7 @@ class Map extends Component {
 		]
 
 	render() {
-<<<<<<< HEAD
-		return (
-			<div id="map"></div>
-	)}
-}
 
-export default Map
-||||||| e26328d... separated map from list view
-		return null
-	}
-}
-=======
 		let listBookstores = this.state.filter ? this.state.bookstores : this.bookstores
 		return (
 			<div>
@@ -243,4 +228,5 @@ export default Map
 		)
 	}
 }
->>>>>>> parent of e26328d... separated map from list view
+
+export default Map
