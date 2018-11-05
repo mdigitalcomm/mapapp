@@ -9,7 +9,7 @@ class Map extends Component {
 	state = {
 		filter: '',
 		bookstores: [],
-		markers: []
+		markers: [],
 	}
 
 	componentDidMount() {		
@@ -50,6 +50,7 @@ class Map extends Component {
 
 			/*Click marker to show infowindow*/
 			marker.addListener('click', () => {
+				
 				this.showInfoWindow(marker)	
 			})
 			markers.push(marker)
@@ -61,17 +62,18 @@ class Map extends Component {
 		}, 100)
 	}
 
+	infowindow = new window.google.maps.InfoWindow()
+	
 	showInfoWindow = (marker) => {
-		let infowindow = new window.google.maps.InfoWindow()
-		if (infowindow.marker !== marker) {
-			infowindow.marker = marker
+		if (this.infowindow.marker !== marker) {
+			this.infowindow.marker = marker
 			this.getDetail(marker)
-			infowindow.setContent(`<div>${marker.title}</div>
+			this.infowindow.setContent(`<div>${marker.title}</div>
 				<div id="bookstoreInfo"></div>
 			`)
-			infowindow.open(this.map, marker)
-			infowindow.addListener('closeclick', ()=>{
-				infowindow.setMarker = null
+			this.infowindow.open(this.map, marker)
+			this.infowindow.addListener('closeclick', ()=>{
+				this.infowindow.setMarker = null
 			})
 		}
 	}
@@ -94,14 +96,17 @@ class Map extends Component {
 		.then(data => {
 			console.log(data.response.venues[0])
 			let id = data.response.venues[0].id
+			console.log(id)
 			return fetch(`https://api.foursquare.com/v2/venues/${id}/photos?&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180707`)
-		})		
+		})
+		.catch(error => error)		
 		.then(results => results.json())
 		.then(data => {
 		 	console.log(data.response.photos)
 			return data.response.photos.items[0]
 		})
 		.then(photo => this.addDetail(photo))
+		.catch(error => error)
 
 	}
 
