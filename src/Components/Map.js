@@ -1,8 +1,8 @@
 
 import React, { Component } from 'react';
-import Filter from './Filter';
-import ListBookstores from './ListBookstores';
-import bookstores from './bookstores';
+import Filter from './Filter'
+import ListBookstores from './ListBookstores'
+import bookstores from './bookstores'
 
 
 class Map extends Component {
@@ -143,7 +143,7 @@ class Map extends Component {
 					/>						
 								
 				</div>
-
+				
 				<div id="map">
 					
 				</div>				

@@ -1,0 +1,68 @@
+
+[
+	{
+		"title": "Politics and Prose Bookstore",
+		"address": "5015 Connecticut Ave NW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.955433406841465, 
+		"lng" : -77.06970870494843
+	},
+	{
+		"title": "Washington Monument Bookstore",
+		"address": "Washington Memorial Drwy SW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.889276459346284, 
+		"lng" : -77.03189689261164
+	},
+	{
+		"title": "George Mason University - Arlington Campus Bookstore",
+		"address": "3401 Fairfax Dr",
+		"city": "Arlington",
+		"state": "VA",
+		"lat" : 38.88743859540963, 
+		"lng" : -77.09402561187744
+	},
+	{
+		"title": "Georgetown University Bookstore",
+		"address": "3800 Reservoir Rd NW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.91015334940311, 
+		"lng" : -77.07438111305237
+	},
+	{
+		"title": "NOVA Bookstore",
+		"address": "8333 Little River Tpke",
+		"city": "Annandale",
+		"state": "VA",
+		"lat" : 38.83286355537448, 
+		"lng" : -77.23544332092266
+	},
+	{
+		"title": "GW Bookstore",
+		"address": "800 21st St NW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.9001324513647, 
+		"lng" : -77.04667624668473
+	},
+	{
+		"title": "Marymount University Bookstore",
+		"address": "2807 N Glebe Rd",
+		"city": "Arlington",
+		"state": "VA",
+		"lat" : 38.90485705525619, 
+		"lng" : -77.1271488650243
+	},
+	{
+		"title": "DeVry Crystal City Bookstore",
+		"address": "2450 Crystal Dr",
+		"city": "Arlington",
+		"state": "VA",
+		"lat" : 38.85476415, 
+		"lng" : -77.05058921666667
+	}
+
+]
