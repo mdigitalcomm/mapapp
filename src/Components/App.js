@@ -108,25 +108,28 @@ class App extends Component {
 		.then(data => {
 		 	console.log(data.response.photos)
 		/*Return the 1st photo of the venue*/
-			return data.response.photos.items[0]
+			return data.response.photos.items
 		})
-		.then(photo => this.addDetail(photo))
+		.then(photos => this.addDetail(photos))
 		.catch(error => error)
 
 	}
 
-	addDetail = (photoinfo) => {
-		/*Add the photo of the venue to infowindow*/
+	addDetail = (photos) => {
+		/*Add the photos of the venue to infowindow*/
 		let htmlContent=''
 		let responseContainer = document.getElementById('bookstoreInfo')
-		/*Get the link of the venue photo*/
-		let link = `${photoinfo.prefix}${photoinfo.width}x${photoinfo.height}${photoinfo.suffix}`
-		htmlContent=`
-				<div class="photo">
-					<img src="${link}" alt="photo of bookstore">
-				</div>
-				`
-		responseContainer.insertAdjacentHTML('afterbegin', htmlContent)
+		photos.map(photo => {
+			/*Get the link of the photo*/
+			let link = `${photo.prefix}${photo.width}x${photo.height}${photo.suffix}`
+			return htmlContent=`
+					<div class="photo">
+						<img src="${link}" alt="photo of bookstore">
+					</div>
+					`
+		})
+		responseContainer.insertAdjacentHTML('beforeend', htmlContent)
+		
 	}
 
 
