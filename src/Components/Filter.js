@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ButtonToolbar, SplitButton, MenuItem } from 'react-bootstrap'
+import { SplitButton, MenuItem } from 'react-bootstrap'
 
 class Filter extends Component {
 	
