@@ -4,19 +4,21 @@ import './App.css';
 import Filter from './Filter';
 import ListBookstores from './ListBookstores';
 import bookstores from './bookstores';
+import Map from './Map';
 
 
 class App extends Component {
 	state = {
 		filter: '',
-		bookstores: [],
-		markers: [],
+		bookstores: []
+		// markers: []
 	}
 
+	/*
 	componentDidMount() {		
-		/* Create the map */
+		 Create the map
 		let map = this.map()
-		/*Showing markers of all bookstores*/
+		Showing markers of all bookstores
 		this.addMarkers(bookstores, map)
 	}
 
@@ -26,7 +28,7 @@ class App extends Component {
 			mapTypeId: 'roadmap'
 			// Addd fitbounds method
 	})
-
+	*/
 	setFilter = (value) => {
 		/*Click filter to show selected locations*/
 		let filterValue = new RegExp(value)
@@ -38,31 +40,31 @@ class App extends Component {
 	
 	}
 
-	addMarkers = (bookstores, map) => {
-		let markers = []
-		bookstores.map(bookstore => {			
-			let marker = new window.google.maps.Marker({
-				map: map,
-				position: new window.google.maps.LatLng(bookstore.lat, bookstore.lng),
-				title: bookstore.title,
-				address: bookstore.address,
-				animation: window.google.maps.Animation.DROP,
-			})
+	// addMarkers = (bookstores, map) => {
+	// 	let markers = []
+	// 	bookstores.map(bookstore => {			
+	// 		let marker = new window.google.maps.Marker({
+	// 			map: map,
+	// 			position: new window.google.maps.LatLng(bookstore.lat, bookstore.lng),
+	// 			title: bookstore.title,
+	// 			address: bookstore.address,
+	// 			animation: window.google.maps.Animation.DROP,
+	// 		})
 
-			/*Click marker to show infowindow*/
-			marker.addListener('click', () => {
+	// 		/*Click marker to show infowindow*/
+	// 		marker.addListener('click', () => {
 				
-				this.showInfoWindow(marker)	
-			})
-			markers.push(marker)
-			return markers
-		})
-		setTimeout(() => {
-			this.setState({markers})
-		}, 100)
-	}
+	// 			this.showInfoWindow(marker)	
+	// 		})
+	// 		markers.push(marker)
+	// 		return markers
+	// 	})
+	// 	setTimeout(() => {
+	// 		this.setState({markers})
+	// 	}, 100)
+	// }
 
-	infowindow = new window.google.maps.InfoWindow()
+	// infowindow = new window.google.maps.InfoWindow()
 	
 	showInfoWindow = (marker) => {
 		if (this.infowindow.marker !== marker) {
@@ -97,17 +99,14 @@ class App extends Component {
 		.then(results => results.json())
 		.catch(error => error)
 		.then(data => {
-			console.log(data.response.venues[0])
 			let id = data.response.venues[0].id
-			console.log(id)
 		/*Get photos of the venue using venue ID fetched above*/
 			return fetch(`https://api.foursquare.com/v2/venues/${id}/photos?&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180707`)
 		})
 		.catch(error => error)		
 		.then(results => results.json())
 		.then(data => {
-		 	console.log(data.response.photos)
-		/*Return the 1st photo of the venue*/
+		/*Return the photos of the venue*/
 			return data.response.photos.items
 		})
 		.then(photos => this.addDetail(photos))
@@ -145,7 +144,9 @@ class App extends Component {
 						title={this.state.filter? this.state.filter: "All Regions" } 							
 						onSelect={eventKey => {
 							this.setFilter(eventKey)
+							{/*
 							setTimeout(() => this.addMarkers(this.state.bookstores, this.map()), 200)
+							*/}
 						}} 
 
 					/>
@@ -157,9 +158,13 @@ class App extends Component {
 								
 				</div>
 				
-				<div id="map">
-					
-				</div>				
+				<div>			
+					<Map 
+						filter={this.state.filter}
+						bookstores={listBookstores}
+
+					/>
+				</div>			
 			</div>
 
 		)
