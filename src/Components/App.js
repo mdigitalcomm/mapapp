@@ -64,7 +64,7 @@ class App extends Component {
 	// 	}, 100)
 	// }
 
-	// infowindow = new window.google.maps.InfoWindow()
+	infowindow = new window.google.maps.InfoWindow()
 	
 	showInfoWindow = (marker) => {
 		if (this.infowindow.marker !== marker) {
