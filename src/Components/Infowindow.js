@@ -20,9 +20,10 @@ export default class Infowindow extends Component {
 		}
 	}
 
-	getDetail = (bookstore) => {
+	getDetail = (marker) => {
 		/*Get the ID of the venue first*/
-		let ll = `${bookstore.getPosition().lat()},${bookstore.getPosition().lng()}`		
+		let ll = `${marker.getPosition().lat()},${marker.getPosition().lng()}`		
+		console.log(ll)
 		fetch(`https://api.foursquare.com/v2/venues/search?ll=${ll}&limit=1&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180527`)
 		.then(results => results.json())
 		.catch(error => error)
@@ -60,9 +61,14 @@ export default class Infowindow extends Component {
 	}
 
 	render() {
-		const { clickedMarker } = this.props
+		const { clickedMarker, infowindowStatus } = this.props
+		console.log(infowindowStatus)
 		return(
 			<div id="infoWindow">
+				
+				infowindowStatus? this.showInfoWindow(clickedMarker) : null
+					
+				
 			</div>
 		)
 	}

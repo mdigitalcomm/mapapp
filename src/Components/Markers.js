@@ -4,6 +4,7 @@ import Infowindow from './Infowindow'
 export default class Markers extends Component {
 	state = {
 		markers: [],
+		infowindowStatus: false,
 		clickedMarker:{}
 	}
 
@@ -29,6 +30,7 @@ export default class Markers extends Component {
 			/*Click marker to show infowindow*/
 			marker.addListener('click', () => {
 				this.setState({clickedMarker: marker})
+				this.setState({infowindowStatus: true})
 				console.log(this.state.clickedMarker)
 			})
 
@@ -52,9 +54,9 @@ export default class Markers extends Component {
 				{bookstores.map(bookstore => (
 					<Infowindow
 						key={bookstore.title}
-						store={bookstore}
 						map = {map}
 						clickedMarker={this.state.clickedMarker}
+						infowindowStatus={this.state.infowindowStatus}
 
 					/>	
 				))}
