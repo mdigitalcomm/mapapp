@@ -64,8 +64,9 @@ class App extends Component {
 
 
 		})
+		/*Center map to show all markers*/
 		map.fitBounds(bounds)
-		
+		map.panToBounds(bounds)
 		setTimeout(() => {
 			this.setState({markers})
 		}, 100)
@@ -79,7 +80,7 @@ class App extends Component {
 		if (this.infowindow.marker !== marker) {
 			this.infowindow.marker = marker
 			this.getDetail(marker)
-			this.infowindow.setContent(`<div>${marker.title}</div>
+			this.infowindow.setContent(`<div id="storeTitle">${marker.title}</div>
 				<div id="bookstoreInfo"></div>
 			`)
 			/*Click the marker to open the infowindow, click again the close it*/
@@ -123,7 +124,8 @@ class App extends Component {
 		})
 		.then(photos => this.addDetail(photos))
 		.catch(error => error)
-
+		/*TODO: Add error handling messages on the screen*/
+	
 	}
 
 	addDetail = (photos) => {
@@ -135,7 +137,8 @@ class App extends Component {
 			let link = `${photo.prefix}${photo.width}x${photo.height}${photo.suffix}`
 			return htmlContent=`
 					<div class="photo">
-						<img src="${link}" alt="photo of bookstore">
+						<img src="${link}" alt="photo of bookstore"> 
+						<div class="source">Photo source: Foursquare</div>
 					</div>
 					`
 		})
