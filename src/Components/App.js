@@ -111,7 +111,6 @@ class App extends Component {
 		.then(data => {
 			console.log(data.response.venues[0])
 			let id = data.response.venues[0].id
-			console.log(id)
 		/*Get photos of the venue using venue ID fetched above*/
 			return fetch(`https://api.foursquare.com/v2/venues/${id}/photos?&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180707`)
 		})

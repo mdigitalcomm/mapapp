@@ -7,8 +7,8 @@ class ListBookstores extends Component {
 		return (
 			<ul className="bookstores-list">
 				{listBookstores.map(bookstore =>(
-					<li key={bookstore.title}> 
-						<div onClick={onClick} className = "bookstore-name">{bookstore.title}</div>
+					<li tabindex="0" key={bookstore.title} onClick={onClick}> 
+						<div className = "bookstore-name">{bookstore.title}</div>
 						<div className = "bookstore-address">{bookstore.address}, {bookstore.city}, {bookstore.state}</div>
 					</li>
 				))}

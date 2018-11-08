@@ -12,6 +12,7 @@ render() {
 				bsSize="large"
 				title={title}
 				onSelect={onSelect}
+				tabindex = "-1"
 			>
 				<MenuItem eventKey="">All</MenuItem>
 				<MenuItem eventKey="VA">VA</MenuItem>
