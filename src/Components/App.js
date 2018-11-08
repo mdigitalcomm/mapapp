@@ -24,7 +24,7 @@ class App extends Component {
 			center: {lat: 38.8717767, lng: -77.11730230000001},
 			zoom: 12,
 			mapTypeId: 'roadmap'
-			// Addd fitbounds method
+			// Addd fitBounds method
 	})
 
 	setFilter = (value) => {
@@ -38,16 +38,21 @@ class App extends Component {
 	
 	}
 
+
 	addMarkers = (bookstores, map) => {
 		let markers = []
+		let bounds = new window.google.maps.LatLngBounds()
 		bookstores.map(bookstore => {			
+			let position = new window.google.maps.LatLng(bookstore.lat, bookstore.lng)
 			let marker = new window.google.maps.Marker({
 				map: map,
-				position: new window.google.maps.LatLng(bookstore.lat, bookstore.lng),
+				position: position,
 				title: bookstore.title,
 				address: bookstore.address,
 				animation: window.google.maps.Animation.DROP,
 			})
+
+			bounds.extend(marker.position)		
 
 			/*Click marker to show infowindow*/
 			marker.addListener('click', () => {
@@ -56,10 +61,16 @@ class App extends Component {
 			})
 			markers.push(marker)
 			return markers
+
+
 		})
+		map.fitBounds(bounds)
+		
 		setTimeout(() => {
 			this.setState({markers})
 		}, 100)
+
+		
 	}
 
 	infowindow = new window.google.maps.InfoWindow()
