@@ -61,6 +61,9 @@ li .bookstore-address {
 	margin-top: 15px;
 }
 
+#bookstoreInfo .bookstore-address {
+	margin-top: 10px;
+}
 #bookstoreInfo .photo .source {
 	margin-top: 10px;
 	font-style: italic;
@@ -72,9 +75,13 @@ li .bookstore-address {
 		text-align: left;
 	}
 
+	.bookstores-list {
+		display: none;
+	}
+
 	#map {
 		width: 100%;
 		left: 0;
-		top: 110px;
+		top: 120px;
 	}
 }

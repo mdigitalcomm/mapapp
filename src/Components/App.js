@@ -7,10 +7,14 @@ import bookstores from './bookstores';
 
 
 class App extends Component {
-	state = {
-		filter: '',
-		bookstores: [],
-		markers: [],
+	constructor(props) {
+		super(props);
+		this.state = {
+			filter: '',
+			bookstores: [],
+			markers: [],
+		}
+		this.matchMarker = this.matchMarker.bind(this)
 	}
 
 	componentDidMount() {		
@@ -81,6 +85,7 @@ class App extends Component {
 			this.infowindow.marker = marker
 			this.getDetail(marker)
 			this.infowindow.setContent(`<div id="storeTitle">${marker.title}</div>
+				<div className ="bookstore-address">Address: ${marker.address}</div>
 				<div id="bookstoreInfo"></div>
 			`)
 			/*Click the marker to open the infowindow, click again the close it*/
@@ -101,6 +106,7 @@ class App extends Component {
 		})
 
 	}
+
 
 	getDetail = (bookstore) => {
 		/*Get the ID of the venue first*/
@@ -152,7 +158,7 @@ class App extends Component {
 		return (
 			<div>
 				<div className="left">
-					<h1>Bookstores Near Me</h1>
+					<h1 tabIndex="0">Bookstores Near Me</h1>
 											
 					<Filter 
 						title={this.state.filter? this.state.filter: "All Regions" } 							
@@ -165,7 +171,8 @@ class App extends Component {
 										
 					<ListBookstores 
 						listBookstores={listBookstores}
-						onClick={event => this.matchMarker(event)} 							 
+						onClick={event => this.matchMarker(event)}
+													 
 					/>						
 								
 				</div>
