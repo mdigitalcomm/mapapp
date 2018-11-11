@@ -84,9 +84,9 @@ class App extends Component {
 		if (this.infowindow.marker !== marker) {
 			this.infowindow.marker = marker
 			this.getDetail(marker)
-			this.infowindow.setContent(`<div id="storeTitle">${marker.title}</div>
-				<div className ="bookstore-address">Address: ${marker.address}</div>
-				<div id="bookstoreInfo"></div>
+			this.infowindow.setContent(`<h2 tabindex="0" id="storeTitle">${marker.title}</h2>
+				<p className ="bookstore-address">Address: ${marker.address}</p>
+				<div tabindex="0" id="bookstoreInfo"></div>
 			`)
 			/*Click the marker to open the infowindow, click again the close it*/
 			this.infowindow.open(this.map, marker)
@@ -140,10 +140,11 @@ class App extends Component {
 		photos.map(photo => {
 			/*Get the link of the photo*/
 			let link = `${photo.prefix}${photo.width}x${photo.height}${photo.suffix}`
+			console.log(photo)
 			return htmlContent=`
 					<div class="photo">
 						<img src="${link}" alt="photo of bookstore"> 
-						<div class="source">Photo source: Foursquare</div>
+						<p class="source">Photo source: Foursquare</p>
 					</div>
 					`
 		})
