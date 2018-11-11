@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import './App.css';
+import { Helmet } from 'react-helmet';
 import Filter from './Filter';
 import ListBookstores from './ListBookstores';
 import bookstores from './bookstores';
@@ -158,6 +159,9 @@ class App extends Component {
 		let listBookstores = this.state.filter ? this.state.bookstores : bookstores
 		return (
 			<div>
+				<Helmet>
+					<title>Bookstores Near Me</title>
+				</Helmet>
 				<div className="left">
 					<h1 tabIndex="0">Bookstores Near Me</h1>
 											
