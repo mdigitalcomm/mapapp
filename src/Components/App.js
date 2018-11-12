@@ -15,7 +15,6 @@ class App extends Component {
 			bookstores: [],
 			markers: [],
 		}
-		this.matchMarker = this.matchMarker.bind(this)
 	}
 
 	componentDidMount() {		
@@ -154,13 +153,10 @@ class App extends Component {
 						`
 			})
 			responseContainer.insertAdjacentHTML('beforeend', htmlContent)
-
-		}
-		
+		}		
 	}
 
 	render() {
-
 		let listBookstores = this.state.filter ? this.state.bookstores : bookstores
 		return (
 			<div>
