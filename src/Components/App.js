@@ -29,7 +29,6 @@ class App extends Component {
 			center: {lat: 38.8717767, lng: -77.11730230000001},
 			zoom: 12,
 			mapTypeId: 'roadmap'
-			// Addd fitBounds method
 	})
 
 	setFilter = (value) => {
@@ -89,7 +88,7 @@ class App extends Component {
 				<p className ="bookstore-address">Address: ${marker.address}</p>
 				<div tabindex="0" id="bookstoreInfo"></div>
 			`)
-			/*Click the marker to open the infowindow, click again the close it*/
+			/*Click the marker to open the infowindow, click again to close it*/
 			this.infowindow.open(this.map, marker)
 			this.infowindow.addListener('closeclick', ()=>{
 				this.infowindow.setMarker = null
@@ -98,8 +97,9 @@ class App extends Component {
 	}
 
 	matchMarker = (e) => {
-		/*match markers on the map with the list of bookstores */
-		/*so that when a name in the list is clicked, the infowindow of that bookstore pops up*/
+		/** Match markers on the map with the list of bookstores **/
+		/** so that when a name in the list is clicked, **/ 
+		/** the infowindow of that bookstore pops up **/
 		this.state.markers.map(marker => {
 			if (e.target.innerHTML === marker.title) {
 				this.showInfoWindow(marker)
@@ -114,45 +114,50 @@ class App extends Component {
 		let ll = `${bookstore.getPosition().lat()},${bookstore.getPosition().lng()}`		
 		fetch(`https://api.foursquare.com/v2/venues/search?ll=${ll}&limit=1&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180527`)
 		.then(results => results.json())
-		.catch(error => error)
 		.then(data => {
-			console.log(data.response.venues[0])
 			let id = data.response.venues[0].id
 		/*Get photos of the venue using venue ID fetched above*/
 			return fetch(`https://api.foursquare.com/v2/venues/${id}/photos?&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180707`)
 		})
-		.catch(error => error)		
 		.then(results => results.json())
 		.then(data => {
-		 	console.log(data.response.photos)
-		/*Return the 1st photo of the venue*/
+		/*Return the photos of the venue*/
 			return data.response.photos.items
 		})
+		/*Insert photos into the infowindow*/
 		.then(photos => this.addDetail(photos))
-		.catch(error => error)
-		/*TODO: Add error handling messages on the screen*/
-	
+		.catch(error => this.errorMessage(error))	
 	}
 
-	addDetail = (photos) => {
-		/*Add the photos of the venue to infowindow*/
-		let htmlContent=''
-		let responseContainer = document.getElementById('bookstoreInfo')
-		photos.map(photo => {
-			/*Get the link of the photo*/
-			let link = `${photo.prefix}${photo.width}x${photo.height}${photo.suffix}`
-			console.log(photo)
-			return htmlContent=`
-					<div class="photo">
-						<img src="${link}" alt="photo of bookstore"> 
-						<p class="source">Photo source: Foursquare</p>
-					</div>
-					`
-		})
-		responseContainer.insertAdjacentHTML('beforeend', htmlContent)
+	errorMessage = (error) => {
+		document.getElementById('bookstoreInfo').textContent = 
+		`Sorry, there was a problem getting the photos.
+		${error}`
+	}
+
+	addDetail = (photos) => {		
+		if (photos.length === 0) {
+			document.getElementById('bookstoreInfo').textContent = "Sorry, no photo can be found"
+		} else {
+			/*Add the photos of the venue to infowindow*/
+			let htmlContent=''
+			let responseContainer = document.getElementById('bookstoreInfo')
+			photos.map(photo => {
+				/*Get the link of the photo*/
+				let link = `${photo.prefix}${photo.width}x${photo.height}${photo.suffix}`
+				
+				return htmlContent=`
+						<div class="photo">
+							<img src="${link}" alt="photo of bookstore"> 
+							<p class="source">Photo source: Foursquare</p>
+						</div>
+						`
+			})
+			responseContainer.insertAdjacentHTML('beforeend', htmlContent)
+
+		}
 		
 	}
-
 
 	render() {
 
@@ -160,10 +165,10 @@ class App extends Component {
 		return (
 			<div>
 				<Helmet>
-					<title>Bookstores Near Me</title>
+					<title>Bookstores in DC and Northern Virginia</title>
 				</Helmet>
 				<div className="left">
-					<h1 tabIndex="0">Bookstores Near Me</h1>
+					<h1 tabIndex="0">Bookstores in DC and Northern Virginia</h1>
 											
 					<Filter 
 						title={this.state.filter? this.state.filter: "All Regions" } 							
