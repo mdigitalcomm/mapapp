@@ -102,6 +102,7 @@ class App extends Component {
 		this.state.markers.map(marker => {
 			if (e.target.innerHTML === marker.title) {
 				this.showInfoWindow(marker)
+				document.getElementById("bookstores-list").classList.toggle("hide")
 			} return marker
 		})
 
