@@ -55,12 +55,21 @@ class App extends Component {
 				animation: window.google.maps.Animation.DROP,
 			})
 
+			let markerAnimation = () => {
+				if (marker.getAnimation() !== null) {
+					marker.setAnimation(null)
+				} else {
+					marker.setAnimation(window.google.maps.Animation.BOUNCE)
+				}
+			}
+
 			bounds.extend(marker.position)		
 
 			/*Click marker to show infowindow*/
 			marker.addListener('click', () => {
 				
-				this.showInfoWindow(marker)	
+				this.showInfoWindow(marker)
+				markerAnimation()
 			})
 			markers.push(marker)
 			return markers
