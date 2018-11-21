@@ -56,11 +56,8 @@ class App extends Component {
 			})
 
 			let markerAnimation = () => {
-				if (marker.getAnimation() !== null) {
-					marker.setAnimation(null)
-				} else {
-					marker.setAnimation(window.google.maps.Animation.BOUNCE)
-				}
+				marker.setAnimation(window.google.maps.Animation.BOUNCE)
+				setTimeout(()=> {marker.setAnimation(null)}, 750)
 			}
 
 			bounds.extend(marker.position)		
@@ -101,19 +98,46 @@ class App extends Component {
 			this.infowindow.addListener('closeclick', ()=>{
 				this.infowindow.setMarker = null
 			})
+		} else {
+			this.getDetail(marker)
+			this.infowindow.setContent(`<h2 tabindex="0" id="storeTitle">${marker.title}</h2>
+				<p className ="bookstore-address">Address: ${marker.address}</p>
+				<div tabindex="0" id="bookstoreInfo"></div>
+			`)
+			/*Click the marker to open the infowindow, click again to close it*/
+			this.infowindow.open(this.map, marker)
+			this.infowindow.addListener('closeclick', ()=>{
+				this.infowindow.setMarker = null
+			})
 		}
+
 	}
 
 	matchMarker = (e) => {
 		/** Match markers on the map with the list of bookstores **/
 		/** so that when a name in the list is clicked, **/ 
 		/** the infowindow of that bookstore pops up **/
+
 		this.state.markers.map(marker => {
+			let markerAnimation = () => {
+				marker.setAnimation(window.google.maps.Animation.BOUNCE)
+				setTimeout(()=> {marker.setAnimation(null)}, 750)
+			}
+
 			if (e.target.innerHTML === marker.title) {
 				this.showInfoWindow(marker)
-				document.getElementById("bookstores-list").classList.toggle("hide")
+				markerAnimation()
+				// Add function to hide list view on mobile phone
+				let toggleButton = document.getElementById("toggle-button")
+				if (toggleButton.style.display !== 'none' ) {
+					document.getElementById("map").style.zIndex = 0
+				}
+
 			} return marker
 		})
+
+		
+
 
 	}
 

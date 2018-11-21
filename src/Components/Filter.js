@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import { SplitButton, MenuItem, Button, Glyphicon } from 'react-bootstrap'
 
 class Filter extends Component {
-	constructor(props) {
-		super(props);
-	}
 
 	toggleList = () => {
 		let map = document.getElementById("map")
