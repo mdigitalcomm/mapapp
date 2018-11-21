@@ -127,7 +127,7 @@ class App extends Component {
 			if (e.target.innerHTML === marker.title) {
 				this.showInfoWindow(marker)
 				markerAnimation()
-				// Add function to hide list view on mobile phone
+				// Hide list view on small screens
 				let toggleButton = document.getElementById("toggle-button")
 				if (toggleButton.style.display !== 'none' ) {
 					document.getElementById("map").style.zIndex = 0
