@@ -14,6 +14,7 @@ class App extends Component {
 			filter: '',
 			bookstores: [],
 			markers: [],
+			error: ''
 		}
 	}
 
@@ -22,9 +23,12 @@ class App extends Component {
 		let map = this.map()
 		/*Showing markers of all bookstores*/
 		this.addMarkers(bookstores, map)
+		
 	}
 
-	map = () => new window.google.maps.Map(document.getElementById('map'), {
+	map = () => new window.google.maps.Map(this.refs.map
+		// document.getElementById('map')
+		, {
 			center: {lat: 38.8717767, lng: -77.11730230000001},
 			zoom: 12,
 			mapTypeId: 'roadmap'
@@ -158,7 +162,9 @@ class App extends Component {
 			return data.response.photos.items
 		})
 		/*Insert photos into the infowindow*/
-		.then(photos => this.addDetail(photos))
+		.then(photos => {
+			this.addDetail(photos)
+		})
 		.catch(error => this.errorMessage(error))	
 	}
 
@@ -191,6 +197,7 @@ class App extends Component {
 	}
 
 	render() {
+
 		let listBookstores = this.state.filter ? this.state.bookstores : bookstores
 		return (
 			<div>
@@ -217,7 +224,7 @@ class App extends Component {
 								
 				</div>
 				
-				<div id="map">
+				<div ref="map" id="map" role="application">
 					
 				</div>				
 			</div>
