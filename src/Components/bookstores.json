@@ -1,68 +1,171 @@
 
 [
 	{
-		"title": "Politics and Prose Bookstore",
-		"address": "5015 Connecticut Ave NW",
+		"title": "African American Museum",
+		"address": "1400 Constitution Ave., NW",
 		"city": "Washington",
 		"state": "D.C.",
-		"lat" : 38.955433406841465, 
-		"lng" : -77.06970870494843
+		"lat" :  38.891064, 
+		"lng" : -77.032614
 	},
 	{
-		"title": "Washington Monument Bookstore",
-		"address": "Washington Memorial Drwy SW",
+		"title": "African Art Museum",
+		"address": "950 Independence Ave SW",
 		"city": "Washington",
 		"state": "D.C.",
-		"lat" : 38.889276459346284, 
-		"lng" : -77.03189689261164
+		"lat" : 38.887988, 
+		"lng" : -77.025513
 	},
 	{
-		"title": "George Mason University - Arlington Campus Bookstore",
-		"address": "3401 Fairfax Dr",
-		"city": "Arlington",
-		"state": "VA",
-		"lat" : 38.88743859540963, 
-		"lng" : -77.09402561187744
-	},
-	{
-		"title": "Georgetown University Bookstore",
-		"address": "3800 Reservoir Rd NW",
+		"title": "Air and Space Museum",
+		"address": "600 Independence Ave SW",
 		"city": "Washington",
 		"state": "D.C.",
-		"lat" : 38.91015334940311, 
-		"lng" : -77.07438111305237
+		"lat" : 38.88816, 
+		"lng" : -77.019868
 	},
 	{
-		"title": "NOVA Bookstore",
-		"address": "8333 Little River Tpke",
-		"city": "Annandale",
+		"title": "Air and Space Museum Udvar-Hazy Center",
+		"address": "14390 Air and Space Museum Pkwy",
+		"city": "Chantilly",
 		"state": "VA",
-		"lat" : 38.83286355537448, 
-		"lng" : -77.23544332092266
+		"lat" : 38.910919, 
+		"lng" : -77.444207
 	},
 	{
-		"title": "GW Bookstore",
-		"address": "800 21st St NW",
+		"title": "American Art Museum",
+		"address": "F St NW &, 8th St NW",
 		"city": "Washington",
 		"state": "D.C.",
-		"lat" : 38.9001324513647, 
-		"lng" : -77.04667624668473
+		"lat" : 38.897861, 
+		"lng" : -77.022942
 	},
 	{
-		"title": "Marymount University Bookstore",
-		"address": "2807 N Glebe Rd",
-		"city": "Arlington",
-		"state": "VA",
-		"lat" : 38.90485705525619, 
-		"lng" : -77.1271488650243
+		"title": "American History Museum",
+		"address": "1300 Constitution Ave NW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.891279, 
+		"lng" : -77.030051
 	},
 	{
-		"title": "DeVry Crystal City Bookstore",
-		"address": "2450 Crystal Dr",
-		"city": "Arlington",
-		"state": "VA",
-		"lat" : 38.85476415, 
-		"lng" : -77.05058921666667
+		"title": "American Indian Museum",
+		"address": "4th St SW & Independence Ave SW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.888348, 
+		"lng" : -77.016503
+	},
+	{
+		"title": "Anacostia Community Museum",
+		"address": "1901 Fort Pl SE",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.856562, 
+		"lng" : -76.976677
+	},
+	{
+		"title": "Archives of American Art",
+		"address": "750 9th St NW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.899396, 
+		"lng" : -77.02442
+	},
+	{
+		"title": "Arts and Industries Building",
+		"address": "900 Jefferson Dr SW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.88818, 
+		"lng" : -77.0246
+	},
+	{
+		"title": "Freer Gallery of Art",
+		"address": "1050 Independence Ave SW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.887941, 
+		"lng" : -77.026354
+	},
+	{
+		"title": "Hirshhorn Museum",
+		"address": "Independence Ave SW &, 7th St SW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.888161, 
+		"lng" : -77.022968
+	},
+	{
+		"title": "National Zoo",
+		"address": "3001 Connecticut Ave NW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.929616, 
+		"lng" : -77.049784
+	},
+	{
+		"title": "Natural History Museum",
+		"address": "10th St. & Constitution Ave. NW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.891266, 
+		"lng" : -77.026065
+	},
+	{
+		"title": "Postal Museum",
+		"address": "2 Massachusetts Ave NE",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.898097, 
+		"lng" : -77.008238
+	},
+	{
+		"title": "Renwick Gallery",
+		"address": "1661 Pennsylvania Ave NW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.89914, 
+		"lng" : -77.039032
+	},
+	{
+		"title": "S. Dillon Ripley Center",
+		"address": "1100 Jefferson Dr SW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.888564, 
+		"lng" : -77.026868
+	},
+	{
+		"title": "Sackler Gallery",
+		"address": "1050 Independence Ave SW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.887941, 
+		"lng" : -77.026354
+	},
+	{
+		"title": "Smithsonian Gardens",
+		"address": "10 Constitution Ave NW",
+		"city": "Washington",
+		"state": "D.C.",
+		"lat" : 38.890622, 
+		"lng" : -77.024255
+	},
+	{
+		"title": "Cooper Hewitt",
+		"address": "2 E 91st St",
+		"city": "New York",
+		"state": "NY",
+		"lat" : 40.784396, 
+		"lng" : -73.957873
+	},
+	{
+		"title": "American Indian Museum Heye Center",
+		"address": "1 Bowling Green",
+		"city": "New York",
+		"state": "NY",
+		"lat" : 40.704389, 
+		"lng" : -74.013983
 	}
-
 ]

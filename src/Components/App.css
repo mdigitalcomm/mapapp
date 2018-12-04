@@ -8,8 +8,9 @@
 }
 
 h1 {
-	font-size: 25px;
+	font-size: 35px;
 	font-weight: bold;
+	margin: 20px 0 20px;
 }
 
 .filter {
@@ -21,6 +22,9 @@ h1 {
 ul.bookstores-list {
 	list-style: none;
 	padding-left: 5px;
+	margin-top: 10px;
+	height: 80vh;
+	overflow: auto;
 }
 li .bookstore-name {
 	font-size: 18px;
@@ -76,12 +80,15 @@ li .bookstore-address {
 	}
 
 	.bookstores-list {
-		display: none;
+		width: 100%;
+		z-index: -1;
+		position: relative;
 	}
 
 	#map {
+		position: relative;
 		width: 100%;
 		left: 0;
-		top: 120px;
+		top: 140px;
 	}
 }

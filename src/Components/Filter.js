@@ -16,6 +16,8 @@ render() {
 				<MenuItem eventKey="">All</MenuItem>
 				<MenuItem eventKey="VA">VA</MenuItem>
 				<MenuItem eventKey="D.C.">D.C.</MenuItem>
+				<MenuItem eventKey="NY">NY</MenuItem>
+
 			</SplitButton>
 		</div>
 	)

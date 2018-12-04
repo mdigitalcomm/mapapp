@@ -6,22 +6,29 @@ import Filter from './Filter';
 import ListBookstores from './ListBookstores';
 import bookstores from './bookstores';
 
-
 class App extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
+	
+		state = {
 			filter: '',
 			bookstores: [],
 			markers: [],
 		}
-	}
+	
 
-	componentDidMount() {		
-		/* Create the map */
-		let map = this.map()
-		/*Showing markers of all bookstores*/
-		this.addMarkers(bookstores, map)
+	componentDidMount() {
+			// console.log(window.google)
+			// loadMapJS('https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB-G-DJFtsvhQ1Nz45qgKO-X7aOaULbB18')		
+			/* Create the map */
+			// let map = this.map()
+			// // Showing markers of all bookstores
+			// this.addMarkers(bookstores, map)	
+		if(window.google) {
+			let map = this.map()
+			this.addMarkers(bookstores, map)	
+		} else {
+			return null
+		}
+		
 	}
 
 	map = () => new window.google.maps.Map(document.getElementById('map'), {
@@ -72,9 +79,7 @@ class App extends Component {
 		map.panToBounds(bounds)
 		setTimeout(() => {
 			this.setState({markers})
-		}, 100)
-
-		
+		}, 100)		
 	}
 
 	infowindow = new window.google.maps.InfoWindow()
@@ -161,10 +166,10 @@ class App extends Component {
 		return (
 			<div>
 				<Helmet>
-					<title>Bookstores in DC and Northern Virginia</title>
+					<title>Smithsonian Museums</title>
 				</Helmet>
 				<div className="left">
-					<h1 tabIndex="0">Bookstores in DC and Northern Virginia</h1>
+					<h1 tabIndex="0">Smithsonian Museums, Galleries, and Zoo</h1>
 											
 					<Filter 
 						title={this.state.filter? this.state.filter: "All Regions" } 							
@@ -193,3 +198,15 @@ class App extends Component {
 }
 
 export default App;
+
+let loadMapJS = (src) => {
+		let ref = window.document.getElementsByTagName("script")[0]
+		let script = window.document.createElement("script")
+		script.src = src
+		script.async = true
+		script.onerror = () => {
+			document.write("There was a problem loading the map.")
+		}
+
+		ref.parentNode.insertBefore(script, ref)
+	}
