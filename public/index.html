@@ -22,7 +22,11 @@
     <!-- React-Bootstrap stylesheet -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Google Maps API -->
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB-G-DJFtsvhQ1Nz45qgKO-X7aOaULbB18"async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB-G-DJFtsvhQ1Nz45qgKO-X7aOaULbB18" onerror="showError()">
+      function showError() {
+        document.getElementById("root").innerHTML = "There was a problem loading the map."
+      }
+    </script>
     <title>React App</title>
   </head>
   <body>

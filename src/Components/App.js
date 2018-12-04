@@ -12,26 +12,22 @@ class App extends Component {
 			filter: '',
 			bookstores: [],
 			markers: [],
+			error: ''
 		}
 	
 
-	componentDidMount() {
-			// console.log(window.google)
-			// loadMapJS('https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB-G-DJFtsvhQ1Nz45qgKO-X7aOaULbB18')		
-			/* Create the map */
-			// let map = this.map()
-			// // Showing markers of all bookstores
-			// this.addMarkers(bookstores, map)	
-		if(window.google) {
-			let map = this.map()
-			this.addMarkers(bookstores, map)	
-		} else {
-			return null
-		}
+
 		
+	componentDidMount() {		
+		/* Create the map */
+		let map = this.map()
+		/*Showing markers of all bookstores*/
+		this.addMarkers(bookstores, map)
 	}
 
-	map = () => new window.google.maps.Map(document.getElementById('map'), {
+	map = () => new window.google.maps.Map(this.refs.map
+		// document.getElementById('map')
+		, {
 			center: {lat: 38.8717767, lng: -77.11730230000001},
 			zoom: 12,
 			mapTypeId: 'roadmap'
@@ -62,12 +58,18 @@ class App extends Component {
 				animation: window.google.maps.Animation.DROP,
 			})
 
+			let markerAnimation = () => {
+				marker.setAnimation(window.google.maps.Animation.BOUNCE)
+				setTimeout(()=> {marker.setAnimation(null)}, 750)
+			}
+
 			bounds.extend(marker.position)		
 
 			/*Click marker to show infowindow*/
 			marker.addListener('click', () => {
 				
-				this.showInfoWindow(marker)	
+				this.showInfoWindow(marker)
+				markerAnimation()
 			})
 			markers.push(marker)
 			return markers
@@ -97,18 +99,46 @@ class App extends Component {
 			this.infowindow.addListener('closeclick', ()=>{
 				this.infowindow.setMarker = null
 			})
+		} else {
+			this.getDetail(marker)
+			this.infowindow.setContent(`<h2 tabindex="0" id="storeTitle">${marker.title}</h2>
+				<p className ="bookstore-address">Address: ${marker.address}</p>
+				<div tabindex="0" id="bookstoreInfo"></div>
+			`)
+			/*Click the marker to open the infowindow, click again to close it*/
+			this.infowindow.open(this.map, marker)
+			this.infowindow.addListener('closeclick', ()=>{
+				this.infowindow.setMarker = null
+			})
 		}
+
 	}
 
 	matchMarker = (e) => {
 		/** Match markers on the map with the list of bookstores **/
 		/** so that when a name in the list is clicked, **/ 
 		/** the infowindow of that bookstore pops up **/
+
 		this.state.markers.map(marker => {
+			let markerAnimation = () => {
+				marker.setAnimation(window.google.maps.Animation.BOUNCE)
+				setTimeout(()=> {marker.setAnimation(null)}, 750)
+			}
+
 			if (e.target.innerHTML === marker.title) {
 				this.showInfoWindow(marker)
+				markerAnimation()
+				// Hide list view on small screens
+				let toggleButton = document.getElementById("toggle-button")
+				if (toggleButton.style.display !== 'none' ) {
+					document.getElementById("map").style.zIndex = 0
+				}
+
 			} return marker
 		})
+
+		
+
 
 	}
 
@@ -129,7 +159,9 @@ class App extends Component {
 			return data.response.photos.items
 		})
 		/*Insert photos into the infowindow*/
-		.then(photos => this.addDetail(photos))
+		.then(photos => {
+			this.addDetail(photos)
+		})
 		.catch(error => this.errorMessage(error))	
 	}
 
@@ -162,6 +194,7 @@ class App extends Component {
 	}
 
 	render() {
+
 		let listBookstores = this.state.filter ? this.state.bookstores : bookstores
 		return (
 			<div>
@@ -188,7 +221,7 @@ class App extends Component {
 								
 				</div>
 				
-				<div id="map">
+				<div ref="map" id="map" role="application">
 					
 				</div>				
 			</div>

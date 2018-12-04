@@ -5,7 +5,7 @@ class ListBookstores extends Component {
 	render() {
 		const { onClick, listBookstores } = this.props
 		return (
-			<ul className="bookstores-list">
+			<ul id="bookstores-list">
 				{listBookstores.map(bookstore =>(
 					<li key={bookstore.title}> 
 						<div tabIndex="0" onKeyUp={onClick} onClick={onClick} className = "bookstore-name">{bookstore.title}</div>
