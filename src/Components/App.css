@@ -21,25 +21,25 @@ h1 {
 	display: none;
 }
 
-ul#bookstores-list {
+ul#stores-list {
 	list-style: none;
 	margin-top: 10px;
 	padding-left: 20px;
-	height: 79vh;
+	height: 75vh;
 	overflow: auto;
 }
 
-li .bookstore-name {
+li .store-name {
 	font-size: 18px;
 	padding-top: 0.5em;
 }
 
-li .bookstore-name:hover {
+li .store-name:hover {
 	cursor: grabbing;
 	text-decoration: underline;
 }
 
-li .bookstore-address {
+li .store-address {
 	font-size: 12px;
 	color: grey;
 }
@@ -52,7 +52,7 @@ li .bookstore-address {
 	top: 0;
 }
 
-#bookstoreInfo {
+#storeInfo {
 	width: 300px;
 	height: 250px;
 }
@@ -62,16 +62,16 @@ li .bookstore-address {
 	max-width: 300px;
 }
 
-#bookstoreInfo img {
+#storeInfo img {
 	height: 200px;
 	width: 300px;
 	margin-top: 15px;
 }
 
-#bookstoreInfo .bookstore-address {
+#storeInfo .store-address {
 	margin-top: 10px;
 }
-#bookstoreInfo .photo .source {
+#storeInfo .photo .source {
 	margin-top: 10px;
 	font-style: italic;
 }
@@ -82,7 +82,7 @@ li .bookstore-address {
 		height: 20vh;
 	}
 
-	#bookstores-list {
+	#stores-list {
 		padding: 10px 0;
 		background-color: white;
 		max-height: 400px;
