@@ -3,13 +3,13 @@
 }
 
 .left {
-	width: 22%;
+	width: 20%;
 }
 
 h1 {
-	font-size: 35px;
+	font-size: 30px;
 	font-weight: bold;
-	margin: 20px 0 20px;
+	margin: 20px 0 20px 20px;
 }
 
 .search {
@@ -23,9 +23,9 @@ h1 {
 
 ul#bookstores-list {
 	list-style: none;
-	padding-left: 5px;
 	margin-top: 10px;
-	height: 80vh;
+	padding-left: 20px;
+	height: 79vh;
 	overflow: auto;
 }
 
@@ -46,8 +46,8 @@ li .bookstore-address {
 
 #map {
 	height: 100%;
-	width: 75%;
-	left: 25%;
+	width: 80%;
+	left: 21%;
 	position: absolute;
 	top: 0;
 }
@@ -79,14 +79,13 @@ li .bookstore-address {
 @media (max-width: 950px) {
 	.left {
 		width: 100%;
+		height: 20vh;
 	}
 
 	#bookstores-list {
-		padding: 20px 0;
+		padding: 10px 0;
 		background-color: white;
-		height: 100%;
 		max-height: 400px;
-		overflow: scroll;
 		box-shadow: 0px 25px 28px -20px rgba(0,0,0,0.34);
 
 	}
@@ -97,10 +96,9 @@ li .bookstore-address {
 	}
 
 	#map {
-		position: relative;
 		width: 100%;
-		height: 100%;
+		height: 75vh;
 		left: 0;
-		top: 120px;
+		top: 170px;
 	}
 }
