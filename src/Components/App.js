@@ -13,22 +13,39 @@ class App extends Component {
 			filter: '',
 			stores: [],
 			markers: [],
-			error: ''
+			error: '',
+			infowindow: null
 		}
-	
-
-
 		
-	componentDidMount() {		
-		/* Create the map */
-		let map = this.map()
-		/*Showing markers of all stores*/
-		this.addMarkers(stores, map)
+	componentDidMount() {
+		this.getGoogleMaps().then((google) => {
+			
+			/* Create the map and initiate infowindow */
+			let map = this.initMap()
+			this.setState({infowindow: new window.google.maps.InfoWindow()})
+			/* Display markers of all stores */
+			this.addMarkers(stores, map)
+		})
+	}
+	/* Load Google Maps asynchronously with Promise */
+	getGoogleMaps = () => {
+		if (!this.googleMapsPromise) {
+			this.googleMapsPromise = new Promise((resolve, reject) => {
+				window.resolveGoogleMapsPromise = () => {
+					resolve(window.google)
+					delete window.resolveGoogleMapsPromise
+				}
+				const script = document.createElement("script")
+				const key = process.env.REACT_APP_GOOGLE_MAPS_KEY
+				script.src = `https://maps.googleapis.com/maps/api/js?libraries=places&key=${key}&callback=resolveGoogleMapsPromise`
+				script.async = true
+				document.body.appendChild(script)
+			})
+		} 
+		return this.googleMapsPromise
 	}
 
-	map = () => new window.google.maps.Map(this.refs.map
-		// document.getElementById('map')
-		, {
+	initMap = () => new window.google.maps.Map(document.getElementById('map'), {
 			center: {lat: 38.8717767, lng: -77.11730230000001},
 			zoom: 12,
 			mapTypeId: 'roadmap'
@@ -49,6 +66,7 @@ class App extends Component {
 	addMarkers = (stores, map) => {
 		let markers = []
 		let bounds = new window.google.maps.LatLngBounds()
+		
 		stores.map(store => {			
 			let position = new window.google.maps.LatLng(store.lat, store.lng)
 			let marker = new window.google.maps.Marker({
@@ -67,51 +85,33 @@ class App extends Component {
 			bounds.extend(marker.position)		
 
 			/*Click marker to show infowindow*/
-			marker.addListener('click', () => {
-				
+			marker.addListener('click', () => {				
 				this.showInfoWindow(marker)
 				markerAnimation()
 			})
 			markers.push(marker)
 			return markers
-
-
 		})
 		/*Center map to show all markers*/
 		map.fitBounds(bounds)
 		map.panToBounds(bounds)
 		setTimeout(() => {
 			this.setState({markers})
-		}, 100)		
+		}, 100)
 	}
-
-	infowindow = new window.google.maps.InfoWindow()
 	
 	showInfoWindow = (marker) => {
-		if (this.infowindow.marker !== marker) {
-			this.infowindow.marker = marker
-			this.getDetail(marker)
-			this.infowindow.setContent(`<h2 tabindex="0" id="storeTitle">${marker.title}</h2>
-				<p className ="store-address">Address: ${marker.address}</p>
-				<div tabindex="0" id="storeInfo"></div>
-			`)
-			/*Click the marker to open the infowindow, click again to close it*/
-			this.infowindow.open(this.map, marker)
-			this.infowindow.addListener('closeclick', ()=>{
-				this.infowindow.setMarker = null
-			})
-		} else {
-			this.getDetail(marker)
-			this.infowindow.setContent(`<h2 tabindex="0" id="storeTitle">${marker.title}</h2>
-				<p className ="store-address">Address: ${marker.address}</p>
-				<div tabindex="0" id="storeInfo"></div>
-			`)
-			/*Click the marker to open the infowindow, click again to close it*/
-			this.infowindow.open(this.map, marker)
-			this.infowindow.addListener('closeclick', ()=>{
-				this.infowindow.setMarker = null
-			})
-		}
+		let infowindow = this.state.infowindow
+		this.getDetail(marker)
+		infowindow.setContent(`<h2 tabindex="0" id="storeTitle">${marker.title}</h2>
+			<p className ="store-address">Address: ${marker.address}</p>
+			<div tabindex="0" id="storeInfo"></div>
+		`)
+		/*Click the marker to open the infowindow, click again to close it*/
+		infowindow.open(this.initMap, marker)
+		infowindow.addListener('closeclick', ()=>{
+			infowindow.setMarker = null
+		})
 
 	}
 
@@ -119,7 +119,6 @@ class App extends Component {
 		/** Match markers on the map with the list of stores **/
 		/** so that when a name in the list is clicked, **/ 
 		/** the infowindow of that store pops up **/
-
 		this.state.markers.map(marker => {
 			let markerAnimation = () => {
 				marker.setAnimation(window.google.maps.Animation.BOUNCE)
@@ -137,9 +136,6 @@ class App extends Component {
 
 			} return marker
 		})
-
-		
-
 
 	}
 
@@ -212,21 +208,17 @@ class App extends Component {
 						title={this.state.filter? this.state.filter: "All Regions" } 							
 						onSelect={eventKey => {
 							this.setFilter(eventKey)
-							setTimeout(() => this.addMarkers(this.state.stores, this.map()), 200)
+							setTimeout(() => this.addMarkers(this.state.stores, this.initMap()), 200)
 						}} 
-
 					/>
 										
 					<ListStores 
 						listStores={listStores}
-						onClick={event => this.matchMarker(event)}
-													 
-					/>						
-								
+						onClick={event => this.matchMarker(event)}													 
+					/>													
 				</div>
 				
-				<div ref="map" id="map" role="application">
-					
+				<div ref="map" id="map" role="application">					
 				</div>				
 			</div>
 
@@ -235,3 +227,11 @@ class App extends Component {
 }
 
 export default App;
+
+// let loadJS = (src) => {
+// 		let ref = window.document.getElementsByTagName("script")[0]
+// 		let script = window.document.createElement("script")
+// 		script.src = src
+// 		script.async = true
+// 		ref.parentNode.insertBefore(script, ref)
+// 	}
