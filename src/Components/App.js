@@ -5,7 +5,6 @@ import { Helmet } from 'react-helmet';
 import Filter from './Filter';
 import ListStores from './ListStores';
 import stores from './stores';
-require('dotenv').config();
 
 class App extends Component {
 	
@@ -27,7 +26,7 @@ class App extends Component {
 			this.addMarkers(stores, map)
 		})
 	}
-	/* Load Google Maps asynchronously with Promise */
+	/* Load Google Maps asynchronously */
 	getGoogleMaps = () => {
 		if (!this.googleMapsPromise) {
 			this.googleMapsPromise = new Promise((resolve, reject) => {
