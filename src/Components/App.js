@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import Filter from './Filter';
 import ListStores from './ListStores';
 import stores from './stores';
+require('dotenv').config();
 
 class App extends Component {
 	
@@ -145,13 +146,16 @@ class App extends Component {
 
 	getDetail = (store) => {
 		/*Get the ID of the venue first*/
-		let ll = `${store.getPosition().lat()},${store.getPosition().lng()}`		
-		fetch(`https://api.foursquare.com/v2/venues/search?ll=${ll}&limit=1&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180527`)
+		let ll = `${store.getPosition().lat()},${store.getPosition().lng()}`
+		let cid = process.env.REACT_APP_FOURSQUARE_CLIENT_ID
+		let secret = process.env.REACT_APP_FOURSQUARE_CLIENT_SECRET
+		
+		fetch(`https://api.foursquare.com/v2/venues/search?ll=${ll}&limit=1&client_id=${cid}&client_secret=${secret}&v=20180527`)
 		.then(results => results.json())
 		.then(data => {
 			let id = data.response.venues[0].id
 		/*Get photos of the venue using venue ID fetched above*/
-			return fetch(`https://api.foursquare.com/v2/venues/${id}/photos?&client_id=XBM3UHVYGW4PLT2PVS3CUKU2HWLND4DBS4MOUJ4YAOXAOKJI&client_secret=IT2KXHGWS0A2BXQFOTUE2OYTRK10DXH1H43EHXBM3BCPKVUU&v=20180707`)
+			return fetch(`https://api.foursquare.com/v2/venues/${id}/photos?&client_id=${cid}&client_secret=${secret}&v=20180707`)
 		})
 		.then(results => results.json())
 		.then(data => {
