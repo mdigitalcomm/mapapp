@@ -142,8 +142,8 @@ class App extends Component {
 	getDetail = (store) => {
 		/*Get the ID of the venue first*/
 		let ll = `${store.getPosition().lat()},${store.getPosition().lng()}`
-		let cid = process.env.REACT_APP_FOURSQUARE_CLIENT_ID
-		let secret = process.env.REACT_APP_FOURSQUARE_CLIENT_SECRET
+		const cid = process.env.REACT_APP_FOURSQUARE_CLIENT_ID
+		const secret = process.env.REACT_APP_FOURSQUARE_CLIENT_SECRET
 		
 		fetch(`https://api.foursquare.com/v2/venues/search?ll=${ll}&limit=1&client_id=${cid}&client_secret=${secret}&v=20180527`)
 		.then(results => results.json())
