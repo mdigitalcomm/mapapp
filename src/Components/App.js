@@ -8,12 +8,12 @@ import stores from './stores';
 
 class App extends Component {
 	
-		state = {
-			filter: '',
-			stores: stores,
-			markers: [],
-			infowindow: null
-		}
+	state = {
+		filter: '',
+		stores: stores,
+		markers: [],
+		infowindow: null
+	}
 		
 	componentDidMount() {
 		const key = process.env.REACT_APP_GOOGLE_MAPS_KEY
