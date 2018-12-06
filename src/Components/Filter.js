@@ -13,6 +13,17 @@ class Filter extends Component {
 		
 	}
 
+	// componentDidUpdate(prevProps) {
+	// 	console.log(this.props.onSelect）
+	// 	console.log(prevProps.onSelect）
+	// 	if (this.props.onSelect !== prevProps.onSelect) {
+			
+	// // 		// const key = process.env.REACT_APP_GOOGLE_MAPS_KEY
+	// // 		// window.initMap = this.initMap
+	// // 		// this.loadJS(`https://maps.googleapis.com/maps/api/js?libraries=places&key=${key}&callback=initMap`)
+	// 	}
+	// }
+
 	render() {
 		const { title, onSelect } = this.props
 		

@@ -5,51 +5,41 @@ import { Helmet } from 'react-helmet';
 import Filter from './Filter';
 import ListStores from './ListStores';
 import stores from './stores';
-require('dotenv').config();
 
 class App extends Component {
 	
 		state = {
 			filter: '',
-			stores: [],
+			stores: stores,
 			markers: [],
-			error: '',
 			infowindow: null
 		}
 		
 	componentDidMount() {
-		this.getGoogleMaps().then((google) => {
-			
-			/* Create the map and initiate infowindow */
-			let map = this.initMap()
-			this.setState({infowindow: new window.google.maps.InfoWindow()})
-			/* Display markers of all stores */
-			this.addMarkers(stores, map)
-		})
-	}
-	/* Load Google Maps asynchronously with Promise */
-	getGoogleMaps = () => {
-		if (!this.googleMapsPromise) {
-			this.googleMapsPromise = new Promise((resolve, reject) => {
-				window.resolveGoogleMapsPromise = () => {
-					resolve(window.google)
-					delete window.resolveGoogleMapsPromise
-				}
-				const script = document.createElement("script")
-				const key = process.env.REACT_APP_GOOGLE_MAPS_KEY
-				script.src = `https://maps.googleapis.com/maps/api/js?libraries=places&key=${key}&callback=resolveGoogleMapsPromise`
-				script.async = true
-				document.body.appendChild(script)
-			})
-		} 
-		return this.googleMapsPromise
+		const key = process.env.REACT_APP_GOOGLE_MAPS_KEY
+		window.initMap = this.initMap
+		this.loadJS(`https://maps.googleapis.com/maps/api/js?libraries=places&key=${key}&callback=initMap`)
 	}
 
-	initMap = () => new window.google.maps.Map(document.getElementById('map'), {
-			center: {lat: 38.8717767, lng: -77.11730230000001},
-			zoom: 12,
-			mapTypeId: 'roadmap'
-	})
+	/* Load Google Maps asynchronously */
+	loadJS = (src) => {
+		let ref = window.document.getElementsByTagName("script")[0]
+		let script = window.document.createElement("script")
+		script.src = src
+		script.async = true
+		ref.parentNode.insertBefore(script, ref)
+
+	}
+
+	initMap = () => {
+		let map = new window.google.maps.Map(document.getElementById('map'), {
+				center: {lat: 38.8717767, lng: -77.11730230000001},
+				zoom: 12,
+				mapTypeId: 'roadmap'
+		})	
+		this.addMarkers(this.state.stores, map)
+		this.setState({infowindow: new window.google.maps.InfoWindow()})
+	}
 
 	setFilter = (value) => {
 		/*Click filter to show selected locations*/
@@ -61,7 +51,6 @@ class App extends Component {
 		}, 100)
 	
 	}
-
 
 	addMarkers = (stores, map) => {
 		let markers = []
@@ -206,9 +195,9 @@ class App extends Component {
 											
 					<Filter 
 						title={this.state.filter? this.state.filter: "All Regions" } 							
-						onSelect={eventKey => {
+						onSelect={(eventKey) => {
 							this.setFilter(eventKey)
-							setTimeout(() => this.addMarkers(this.state.stores, this.initMap()), 200)
+							setTimeout(() => this.initMap(), 200)
 						}} 
 					/>
 										
@@ -227,11 +216,3 @@ class App extends Component {
 }
 
 export default App;
-
-// let loadJS = (src) => {
-// 		let ref = window.document.getElementsByTagName("script")[0]
-// 		let script = window.document.createElement("script")
-// 		script.src = src
-// 		script.async = true
-// 		ref.parentNode.insertBefore(script, ref)
-// 	}
