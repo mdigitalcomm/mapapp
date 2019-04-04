@@ -1,5 +1,5 @@
 # Neighborhood Map Project
-This is a single page application featuring a map of neighborhood around me with information about nearby bookstores. 
+This is a single page application featuring a map of neighborhood around me with information about Smithsonian Museums. 
 
 It's built with: HTML, CSS, Javascript, React and used Google Maps and Foursquare API. 
 
